@@ -8,19 +8,6 @@ app.get("/videojuegos",(req,res) => {
     res.json(videojuegos);
 })
 
-const verificarCodigoVideojuego = (req,res,next) => {
-    const codigo = parseInt(req.params.codigo);
-    const buscarCodigo = videojuegos.find(v => v.codigo === codigo);
-
-    if(!buscarCodigo){
-        res.status(204).json({
-            mensaje: "Codigo de videojuego inexistente"
-        })
-    }
-
-    next();
-}
-
 const verificarNombreDelJuego = (req,res,next) => {
     const nombre = req.body.nombre;
     const verificarNombreDuplicado = videojuegos.find(v => v.nombre === nombre);
@@ -51,6 +38,47 @@ app.post("/videojuegos",verificarNombreDelJuego,(req,res) => {
     });
 
 })
+
+const verificarCodigoVideojuego = (req,res,next) => {
+    const codigo = parseInt(req.params.codigo);
+    const buscarCodigo = videojuegos.find(v => v.codigo === codigo);
+
+    if(!buscarCodigo){
+        return res.status(404).json({
+            mensaje: "Codigo de videojuego inexistente"
+        })
+    }
+
+    next();
+}
+
+app.get("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+    const codigo = parseInt(req.params.codigo);
+    const posicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
+
+    res.status(200).json({
+        mensaje: "Videojuego encontrado",
+        videojuego: videojuegos[posicionVideojuego]
+    })
+
+});
+
+app.patch("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+    const codigo = parseInt(req.params.codigo);
+    const ubicarPosicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
+
+    videojuegos[ubicarPosicionVideojuego] = {
+        codigo: codigo,
+        nombre: req.body.nombre,
+        plataforma: req.body.plataforma,
+        precio: parseInt(req.body.precio),
+        stock: parseInt(req.body.stock)
+    }
+
+    res.status(200).json({
+        mensaje: "Videjuego actualizado"
+    })
+});
 
 app.listen(3000,() => {
     console.log("Servidor activo");
