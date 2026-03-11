@@ -1,3 +1,7 @@
+/*
+    SIMULACION DE UNA API DE VIDEOJUEGOS 
+*/
+
 const express = require("express");
 const app = express();
 const videojuegos = require("./videojuegos/videojuegos");
