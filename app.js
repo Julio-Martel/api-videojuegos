@@ -94,6 +94,24 @@ app.patch("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     })
 })
 
+app.delete("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+    const codigo = parseInt(req.params.codigo);
+    const posicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
+
+    videojuegos.splice(posicionVideojuego, 1);
+
+    let i = 1;
+    videojuegos.forEach(v => {
+        v.codigo = i;
+        i++; 
+    });
+
+    res.status(200).json({
+        mensaje: "Videojuego borrado"
+    })
+
+})
+
 
 app.listen(3000,() => {
     console.log("Servidor activo");
