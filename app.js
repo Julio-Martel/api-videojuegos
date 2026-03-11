@@ -80,6 +80,21 @@ app.put("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     })
 });
 
+app.patch("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+    const codigo = parseInt(req.params.codigo);
+    const posicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
+
+    videojuegos[posicionVideojuego] = {
+        ...videojuegos[posicionVideojuego],
+        ...req.body
+    }
+
+    res.status(200).json({
+        mensaje: "se ha actualizado el videojuego"
+    })
+})
+
+
 app.listen(3000,() => {
     console.log("Servidor activo");
 })
