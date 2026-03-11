@@ -63,7 +63,7 @@ app.get("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
 
 });
 
-app.patch("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+app.put("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     const codigo = parseInt(req.params.codigo);
     const ubicarPosicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
 
