@@ -8,9 +8,9 @@ const videojuegos = require("./videojuegos/videojuegos");
 
 app.use(express.json());
 
-app.get("/videojuegos",(req,res) => {
+/*app.get("/videojuegos",(req,res) => {
     res.json(videojuegos);
-})
+})*/
 
 const verificarNombreDelJuego = (req,res,next) => {
     const nombre = req.body.nombre;
@@ -56,7 +56,7 @@ const verificarCodigoVideojuego = (req,res,next) => {
     next();
 }
 
-app.get("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
+/*app.get("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     const codigo = parseInt(req.params.codigo);
     const posicionVideojuego = videojuegos.findIndex(v => v.codigo === codigo);
 
@@ -65,7 +65,7 @@ app.get("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
         videojuego: videojuegos[posicionVideojuego]
     })
 
-});
+});*/
 
 app.put("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     const codigo = parseInt(req.params.codigo);
@@ -115,6 +115,19 @@ app.delete("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
     })
 
 })
+
+app.get("/videojuegos", (req, res) => {
+
+    const plataforma = req.query.plataforma;
+
+    if (plataforma) {
+        const filtrados = videojuegos.filter(v => v.plataforma === plataforma && v.precio > 60);
+        return res.json(filtrados);
+    }
+
+    res.json(videojuegos);
+
+});
 
 app.listen(3000,() => {
     console.log("Servidor activo");
