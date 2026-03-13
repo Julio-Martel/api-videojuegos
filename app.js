@@ -116,18 +116,64 @@ app.delete("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
 
 })
 
-app.get("/videojuegos", (req, res) => {
+// este req.query filtra por tipo de plataforma
+
+/*app.get("/videojuegos", (req, res) => {
 
     const plataforma = req.query.plataforma;
 
     if (plataforma) {
-        const filtrados = videojuegos.filter(v => v.plataforma === plataforma && v.precio > 60);
+        const filtrados = videojuegos.filter(v => v.plataforma === plataforma);
         return res.json(filtrados);
     }
 
     res.json(videojuegos);
 
+});*/
+
+/*app.get("/videojuegos", (req,res) => {
+    const precioMaximo = parseInt(req.query.precioMaximo);
+
+    if(precioMaximo){
+        const videojuegosOrdenadosPorPrecioMayorMenor = videojuegos.sort((a,b) => a.precio - b.precio);
+        return res.json(videojuegosOrdenadosPorPrecioMayorMenor);
+    }
+})*/
+
+app.get("/videojuegos", (req,res) => {
+    const nombre = req.query.nombre;
+
+    if(nombre){
+        const filtrarJuegosPorNombre = videojuegos.filter(
+            v => v.nombre.toLowerCase().includes(nombre.toLocaleLowerCase())
+        );
+        return res.json(filtrarJuegosPorNombre);
+    }
+
+})
+
+app.get("/videojuegos", (req,res) => {
+
+    console.log("Ruta ejecutada");
+    console.log(req.query);
+
+    const pagina = req.query.pagina;
+
+    if(pagina){
+        return res.status(404).json({
+            mensaje: "Contenido inexistente"
+        });
+    }
+
+    return res.json({
+        mensaje: "sin pagina"
+    });
+
 });
+
+
+//ARREGLAR ESTE BUG MAÑANA Y SEGUIR VIENDO EL TEMA DE LAS QUERY Y FILTRACIONES Y STRINGS    
+
 
 app.listen(3000,() => {
     console.log("Servidor activo");
