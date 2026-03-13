@@ -138,7 +138,7 @@ app.delete("/videojuegos/:codigo", verificarCodigoVideojuego, (req,res) => {
         const videojuegosOrdenadosPorPrecioMayorMenor = videojuegos.sort((a,b) => a.precio - b.precio);
         return res.json(videojuegosOrdenadosPorPrecioMayorMenor);
     }
-})*/
+})
 
 app.get("/videojuegos", (req,res) => {
     const nombre = req.query.nombre;
@@ -150,7 +150,7 @@ app.get("/videojuegos", (req,res) => {
         return res.json(filtrarJuegosPorNombre);
     }
 
-})
+})*/
 
 app.get("/videojuegos", (req,res) => {
 
