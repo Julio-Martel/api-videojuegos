@@ -172,9 +172,6 @@ app.get("/videojuegos", (req,res) => {
 });
 
 
-//ARREGLAR ESTE BUG MAÑANA Y SEGUIR VIENDO EL TEMA DE LAS QUERY Y FILTRACIONES Y STRINGS    
-
-
 app.listen(3000,() => {
     console.log("Servidor activo");
 })
